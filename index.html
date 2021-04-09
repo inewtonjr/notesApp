@@ -19,8 +19,23 @@
 
 <script>
 var textElement = document.getElementById("note")
+/* text saved in element with html Id: note is saved to object: textElement */
 
 function saveNote() {
-    
+    if (textElement.value=='') { 
+        /* If object: textElement is empty, code block will run */
+        return alert('You need to write something!!')// An alert will pop up with a message
+    }
+    const id = getNoteId(); //Links function to varible id in index.js file line 1
+    let noteObject = getExistingNotes() //Links function from index.js, line 18, to changable variable
+    if (!noteObject) { //if not noteObject, run noteObject
+        noteObject={}
+    }
+    noteObject[id] = textElement.value /*values in text element stored in noteObject and are put into array in getNoteId fucntion line 29*/
+    localStorage.setItem('notes', JSON.stringify(noteObject))
+    /*localStorage.setItem store key:'notes' and values: JSON.stringify function turns anything in noteObject, more specifically textElement.value, into a string for storage 
+    Note: localStorage only stores strings*/
+    alert('Note Saved!!')
 }
+
 </script>
