@@ -17,21 +17,45 @@ const http = require('http');
 
 //arguments allow capturing and returning info to user
 const server = http.createServer((request, response) => {
-    if(request.url === '/') {
-        let filePath = path.join(__dirname, 'public', 'index.html')
-        fs.readFile(filePath, 'utf8', (err,data) => {
-        response.writeHead(200, {'Content-Type': 'text/html'})
-        response.end(data)
-        })
-    }
-    if(request.url === '/index2.html') {
-        let filePath = path.join(__dirname, 'public', 'index2.html')
-        fs.readFile(filePath, 'utf8', (err,data) => {
-        response.writeHead(200, {'Content-Type': 'text/html'})
-        response.end(data)
-        })
-    }
+    let filePath = path.join(__dirname, 'public', request.url === '/' ? 'index.html' : request.url)
+    let contentType = getContentType(filePath) || 'text/html'
+    let emptyPagePath = path.join(__dirname, 'public', '404.html')
+    fs.readFile(filePath, 'utf8', (err, content) => {
+        if(err) {
+            if(err.code === 'ENDENT') {
+                fs.readFile(emptyPagePath, 'utf8', (err, content) => {
+                    response.writeHead(200, {'Content-type': contentType})
+                    response.end(content)
+                })
+            } else {
+                response.writeHead(500)
+                response.end('A server error has occured')
+            }
+        }
+
+        if (!err) {
+           response.writeHead(200, {'Content-Type': contentType})
+           response.end(content)
+        }
+    })
 })
+
+const getContentType = (filePath) => {
+    let extName = path.extname(filePath)
+    if (extName === '.js') {
+        return 'text/javascript'
+    }
+    if (extName === '.css') {
+        return 'text/css'
+    }
+    if (extName === '.png') {
+        return 'image/png'
+    }
+    if (extName === '.jpg') {
+        return 'image/jpg'
+    }
+}
+
 //prompts server to listen
 const port = 5000;
 
