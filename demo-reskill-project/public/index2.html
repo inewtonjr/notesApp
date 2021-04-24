@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<head>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <script src="index.js"></script>
+</head>
+
+<div class="second-page">
+    <ol id="notes-list">
+
+    </ol>
+</div>
+
+<a href="index.html"><h3>Back</h3></a>
+
+
+<script>
+(function getNotes() {
+    //creating a function called getNotes
+    let notes = getExistingNotes()
+    //store function from index.js line 18 into object: notes
+    let notesArray = Object.values(notes)
+    /* index.js line 26 turned object: notes to a JS object. object is turned to an array */
+    let orderedList = document.getElementById('notes-list') 
+    /* Id with 'notes-list' in html is then stored to object orderedList*/
+    notesArray.forEach(note => {
+       /*for each note, the function note trigger block of code*/
+        let listItem = document.createElement('li')
+        /* method .createElement creating an element with li is saved to changable object:listItem */
+        listItem.innerHTML = note
+        /* object:note is stored in object:listItem with method .innerHTML. Method places the strings in an object to the element assigned to listItem with HTML mark up */
+        orderedList.appendChild(listItem)
+        /* object:listItem content are placed into object:orderedList, see line:24 using method: .appendChild which inserts contents to an html child element  */
+    });
+})()
+/* Not sure what the second parentheses does, but is essential for so the user can see the text on the page. When removed, visually no text is produced, but input from index.html is saved  */
+
+</script>

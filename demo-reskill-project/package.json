@@ -1,0 +1,15 @@
+{
+  "name": "demo-reskill-project",
+  "version": "1.0.0",
+  "description": "this is a project for week 4 of Reskill America",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Isaac Jimenez",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
